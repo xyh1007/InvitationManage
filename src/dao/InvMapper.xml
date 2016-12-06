@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.InvMapper">
+	<select id="getInvList"  resultType="Invitation">
+		select * from invitation
+		<where>
+		<if test="title!=null and title!=''">
+		 title like  CONCAT('%',#{title},'%') order by createdate desc limit #{startNum},4
+		</if>
+		</where>
+	</select>
+	<select id="getAllInv" resultType="Invitation">
+		select * from invitation  order by createdate desc limit #{startNum},4
+	</select>
+	<select id="getInvCount" resultType="int">
+		select count(*) from invitation
+	</select>
+	<delete id="deleteRep" parameterType="int">
+		delete from reply_detail where invid=#{id}
+	</delete>
+	<delete id="deleteInv" parameterType="int">
+		delete from invitation where id=#{id}
+	</delete>
+	<select id="getSearchInvListCount" resultType="int">
+		select count(*) from invitation where title like CONCAT('%',#{title},'%')
+	</select>
+</mapper>
